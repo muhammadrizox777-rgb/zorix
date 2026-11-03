@@ -1,0 +1,86 @@
+=====================================================
+  ZORIX CLIENT  -  O'rnatish qo'llanmasi (Windows 64)
+  Minecraft Java 1.21.4  |  Fabric
+=====================================================
+
+Dasturlashni bilish SHART EMAS. Faqat qadamlarni ketma-ket bajaring.
+Internet kerak (faqat bir marta, yig'ish uchun).
+
+
+1-QADAM.  Java 21 ni o'rnating
+------------------------------
+1) Brauzerda oching:  https://adoptium.net/temurin/releases/?version=21
+2) Operating System: Windows,  Architecture: x64,  Package Type: JDK,  Version: 21
+3) ".msi" faylni yuklab oling va ishga tushiring.
+4) O'rnatish oynasida "Set JAVA_HOME variable" va "Add to PATH" yonidagi
+   belgilarni ham yoqing (Will be installed on local hard drive).
+5) Next ... Install ... Finish.
+
+
+2-QADAM.  ZORIX CLIENT ni yig'ing (tayyor mod faylini oling)
+------------------------------------------------------------
+1) zorix-client.zip ni ish stoliga chiqaring: sichqonchaning o'ng tugmasi
+   -> "Extract All..." (Hammasini chiqarish).
+2) Chiqqan "zorix-client" papkasini oching.
+3) "build.bat" faylini ikki marta bosing.
+   - Qora oyna ochiladi va o'zi hamma narsani yuklab, yig'adi.
+   - Birinchi marta 5-10 daqiqa ketadi. Oynani yopmang!
+4) "TAYYOR!" yozuvi chiqsa, "TAYYOR-MOD" papkasi o'zi ochiladi.
+   Ichida:  zorix-client-1.0.0.jar   <-- aynan shu bizga kerak.
+
+
+3-QADAM.  Minecraft 1.21.4 uchun Fabric o'rnating
+-------------------------------------------------
+1) Minecraft Launcher ni oching, bir marta 1.21.4 versiyani ishga tushirib
+   (Play) yoping. (Bu kerakli fayllarni yaratadi.)
+2) Brauzerda oching:  https://fabricmc.net/use/installer/
+   "Download for Windows" (.exe) ni yuklab, ishga tushiring.
+3) Oynada:  Minecraft Version = 1.21.4,  Loader = oxirgi versiya.
+   "Install" ni bosing. Tugagach oynani yoping.
+
+
+4-QADAM.  Fabric API ni yuklab oling
+------------------------------------
+1) Oching:  https://modrinth.com/mod/fabric-api/versions
+2) Filtrdan Minecraft 1.21.4 va Fabric ni tanlang.
+3) Eng yangi "fabric-api-...+1.21.4.jar" faylini yuklab oling.
+
+
+5-QADAM.  Fayllarni mods papkasiga qo'ying
+------------------------------------------
+1) Klaviaturada Win + R bosing, yozing:   %appdata%\.minecraft   va Enter bosing.
+2) Agar "mods" papkasi yo'q bo'lsa, yangi papka yarating va nomini "mods" qiling.
+3) "mods" papkasiga IKKI faylni tashlang:
+      - zorix-client-1.0.0.jar     (2-qadamdagi)
+      - fabric-api-...+1.21.4.jar  (4-qadamdagi)
+
+
+6-QADAM.  O'ynash
+-----------------
+1) Minecraft Launcher -> pastki chapdan "fabric-loader-1.21.4" ni tanlang -> PLAY.
+2) O'yinga kiring (singleplayer yoki server).
+3) RIGHT SHIFT bosing  ->  ZORIX CLIENT menyusi ochiladi.
+
+
+BOSHQARUV
+---------
+RIGHT SHIFT ........ Menyu (modullarni ON/OFF, rang, sozlamalar)
+Menyu -> HUD EDITOR  HUD elementlarini sichqoncha bilan suring
+                     (o'ng tugma = element ON/OFF)
+C (ushlab turing) .. Zoom
+LEFT ALT (ushlab) .. Freelook (atrofga qarash, o'yinchi burilmaydi)
+Tugmalarni o'zgartirish:  ESC -> Options -> Controls -> Key Binds -> ZORIX CLIENT
+
+Hammasi sichqoncha bilan ham boshqariladi, shuning uchun klaviatura
+ishlamasa ham modullarni menyudan yoqib-o'chira olasiz.
+Sozlamalar avtomatik saqlanadi:  .minecraft\config\zorix-client.json
+
+
+MUAMMO BO'LSA
+-------------
+* "Java topilmadi / Java 21 kerak"  -> 1-qadamni qayta bajaring, keyin
+  kompyuterni qayta ishga tushiring va build.bat ni yana bosing.
+* build.bat xato bersa -> oynadagi oxirgi yozuvlarni nusxalab yuboring.
+* O'yin ochilmasa -> logs\latest.log faylini yuboring
+  (%appdata%\.minecraft\logs\latest.log).
+* Fabric API ni qo'ymagan bo'lsangiz o'yin ochilmaydi.
