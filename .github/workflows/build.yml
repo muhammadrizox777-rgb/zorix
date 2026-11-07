@@ -1,0 +1,37 @@
+name: Build
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.12
+      - name: Build every zip in the repo
+        shell: bash
+        run: |
+          set -e
+          mkdir -p out work
+          for z in *.zip; do
+            [ -e "$z" ] || continue
+            d="work/$(basename "$z" .zip)"
+            mkdir -p "$d"
+            unzip -oq "$z" -d "$d"
+            while IFS= read -r -d '' g; do
+              p="$(dirname "$g")"
+              (cd "$p" && gradle build --no-daemon)
+              find "$p/build/libs" -name '*.jar' ! -name '*-sources.jar' -exec cp {} "$GITHUB_WORKSPACE/out/" \;
+            done < <(find "$d" -name build.gradle -print0)
+          done
+          ls -l out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mods
+          path: out/*.jar
