@@ -1,0 +1,57 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Unzip project
+        run: |
+          ZIP=$(find . -maxdepth 1 -name "*.zip" | head -n 1)
+          echo "Using $ZIP"
+          mkdir -p project
+          unzip -q "$ZIP" -d project
+          DIR=$(dirname "$(find project -name build.gradle | head -n 1)")
+          echo "PROJECT_DIR=$DIR" >> $GITHUB_ENV
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: current
+
+      - name: Generate Gradle wrapper
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: gradle wrapper
+
+      - name: Remap leftover names to Yarn
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          YARN=$(grep '^yarn_mappings=' gradle.properties | cut -d= -f2)
+          curl -fsSL -o yarn.jar "https://maven.fabricmc.net/net/fabricmc/yarn/${YARN}/yarn-${YARN}-v2.jar"
+          python3 tools/remap_leftovers.py yarn.jar src/main/java
+
+      - name: Build
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          chmod +x gradlew
+          ./gradlew build --no-daemon
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: dexvisual
+          path: |
+            ${{ env.PROJECT_DIR }}/build/libs/*.jar
+            !${{ env.PROJECT_DIR }}/build/libs/*-sources.jar
